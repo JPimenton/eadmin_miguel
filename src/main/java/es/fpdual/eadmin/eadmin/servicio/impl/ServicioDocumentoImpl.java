@@ -3,9 +3,12 @@ package es.fpdual.eadmin.eadmin.servicio.impl;
 import java.util.Date;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import es.fpdual.eadmin.eadmin.EadminApplication;
 import es.fpdual.eadmin.eadmin.modelo.Documento;
 import es.fpdual.eadmin.eadmin.modelo.builder.DocumentoBuilder;
 import es.fpdual.eadmin.eadmin.repositorio.RepositorioDocumento;
@@ -15,10 +18,11 @@ import es.fpdual.eadmin.eadmin.servicio.ServicioDocumento;
 public class ServicioDocumentoImpl implements ServicioDocumento {
 
 	RepositorioDocumento repositorioDocumento;
-	
+		
 	@Autowired
 	public ServicioDocumentoImpl (RepositorioDocumento repositorioDocumento) {
 		this.repositorioDocumento = repositorioDocumento;
+					
 	}
 	
 	@Override

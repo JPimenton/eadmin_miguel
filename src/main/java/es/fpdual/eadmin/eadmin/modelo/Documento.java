@@ -21,6 +21,12 @@ public class Documento extends ElementoBaseAdministracionElectronica {
 		return "Documento con código " + codigo;
 	}
 	
-	
+	public String getDatos() {
+		return "Documento con código" + this.getCodigo() + 
+				" Nombre:  " + this.getNombre() +
+				" FechaCracion: " + this.getFechaCreacion() +
+				" FechaUltimaActualizacion: " + this.getFechaUltimaActualizacion() + 
+				" Publico: " + this.getPublico()+".";				
+	}
 	
 }
