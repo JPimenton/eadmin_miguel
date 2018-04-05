@@ -16,4 +16,12 @@ public interface RepositorioDocumento {
 
 	public abstract List<Documento> obtenerTodosLosDocumentos();
 	
+	public void GuardarDocumentoEnArchivo();
+	
+	public void altaDocumentoConArchivo(Documento documento);
+	
+	public void modificarDocumentoConArchivo(Documento documento, Documento documentoNuevo);
+	
+	public void eliminarDocumentoConArchivo(Integer codigo);
+	
 }
