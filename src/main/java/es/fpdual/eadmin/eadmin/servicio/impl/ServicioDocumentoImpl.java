@@ -38,12 +38,9 @@ public class ServicioDocumentoImpl implements ServicioDocumento {
 	}
 
 	@Override
-	public Documento modificarDocumento(Documento documento) {
+	public Documento modificarDocumento(Documento documento, Documento documentoModificado) {
 		
-		final Documento documentoModificado = 
-				obtenerDocumentoConFechaUltimaActualizacionCorrecta(documento);
-		
-		repositorioDocumento.modificarDocumento(documentoModificado);
+		repositorioDocumento.modificarDocumento(documento, documentoModificado);
 		
 		return documentoModificado;
 	}

@@ -52,9 +52,9 @@ public class ServicioDocumentoImplTest {
 		
 		doReturn(documentoModificado).when(this.servicioDocumento).obtenerDocumentoConFechaUltimaActualizacionCorrecta(DOCUMENTO);
 		
-		this.servicioDocumento.modificarDocumento(DOCUMENTO);
+		this.servicioDocumento.modificarDocumento(DOCUMENTO,documentoModificado );
 		
-		verify(this.repositorioDocumento).modificarDocumento(documentoModificado);
+		verify(this.repositorioDocumento).modificarDocumento(DOCUMENTO,documentoModificado);
 		
 	}
 	

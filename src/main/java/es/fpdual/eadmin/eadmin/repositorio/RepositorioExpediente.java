@@ -7,7 +7,7 @@ public interface RepositorioExpediente {
 	
 	void altaExpediente(Expediente expediente);
 
-	Expediente modificarExpediente(Expediente expediente);
+	Expediente modificarExpediente(Expediente expediente, Expediente expedienteNuevo);
 
 	void eliminarExpediente(Integer codigoExpediente);
 	
@@ -16,4 +16,12 @@ public interface RepositorioExpediente {
 	Expediente desasociarDocumentoDelExpediente (Integer codigoExpediente, Integer codigoDocumento);
 	
 	Expediente obtenerExpedientePorCodigo(Integer codigoExpediente);
+	
+	public void altaExpedienteConArchivo(Expediente documento);
+	
+	public Expediente modificarExpedienteConArchivo(Expediente expediente, Expediente expedienteNuevo);
+	
+	public void eliminarExpedienteConArchivo(Integer codigoExpediente);
+
+	void GuardarExpedientesEnArchivo();
 }

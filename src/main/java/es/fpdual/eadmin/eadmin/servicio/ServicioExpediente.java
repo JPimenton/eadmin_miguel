@@ -7,7 +7,7 @@ public interface ServicioExpediente {
 	
 	Expediente altaExpediente(Expediente expediente);
 
-	Expediente modificarExpediente(Expediente expediente);
+	Expediente modificarExpediente(Expediente expediente, Expediente expedienteNuevo);
 
 	void eliminarExpediente(Integer codigoExpediente);
 	

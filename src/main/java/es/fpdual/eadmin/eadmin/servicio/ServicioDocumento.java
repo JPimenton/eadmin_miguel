@@ -8,7 +8,7 @@ public interface  ServicioDocumento {
 
 	Documento altaDocumento(Documento documento);
 
-	Documento modificarDocumento(Documento documento);
+	Documento modificarDocumento(Documento documento, Documento documentoModificado);
 
 	void eliminarDocumento(Integer codigo);
 	

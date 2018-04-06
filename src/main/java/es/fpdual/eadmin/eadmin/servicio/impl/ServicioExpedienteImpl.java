@@ -25,8 +25,8 @@ public class ServicioExpedienteImpl implements ServicioExpediente{
 	}
 
 	@Override
-	public Expediente modificarExpediente(Expediente expediente) {
-		return this.repositorioExpediente.modificarExpediente(expediente);
+	public Expediente modificarExpediente(Expediente expediente, Expediente expedienteNuevo) {
+		return this.repositorioExpediente.modificarExpediente(expediente,expedienteNuevo);
 		
 	}
 

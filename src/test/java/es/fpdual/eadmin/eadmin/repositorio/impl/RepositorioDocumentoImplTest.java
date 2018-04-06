@@ -59,7 +59,7 @@ public class RepositorioDocumentoImplTest {
 		
 		this.repositorioDocumento.getDocumentos().add(documento);
 		
-		this.repositorioDocumento.modificarDocumento(documento2);
+		this.repositorioDocumento.modificarDocumento(documento,documento2);
 		
 		assertSame(documento2, this.repositorioDocumento.getDocumentos().get(0));
 		
@@ -68,7 +68,7 @@ public class RepositorioDocumentoImplTest {
 	@Test (expected = IllegalArgumentException.class)
 	public void deberiaLanzarExcepcionSiIntentamosAlmacenarUnDocumentoQueNoExiste() {
 		
-		this.repositorioDocumento.modificarDocumento(documento);
+		this.repositorioDocumento.modificarDocumento(documento,documento);
 		
 	}
 	
