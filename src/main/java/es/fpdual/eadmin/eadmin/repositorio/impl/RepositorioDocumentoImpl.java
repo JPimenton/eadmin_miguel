@@ -12,10 +12,18 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+import org.apache.poi.EncryptedDocumentException;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.Font;
+import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.WorkbookFactory;
+import org.apache.poi.xssf.usermodel.XSSFCellStyle;
+import org.apache.poi.xssf.usermodel.XSSFFont;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.slf4j.Logger;
@@ -38,6 +46,11 @@ public class RepositorioDocumentoImpl implements RepositorioDocumento {
 	int rowNumEliminar = 0;
 	int rowNumLista = 0;
 	int rowNum;
+	int rowNumAlta2 = 0;
+	int rowNumMod2 = 0;
+	int rowNumEliminar2 = 0;
+	int rowNumLista2 = 0;
+	int rowNum2;
 
 	@Override
 	public void altaDocumento(Documento documento) {
@@ -63,7 +76,7 @@ public class RepositorioDocumentoImpl implements RepositorioDocumento {
 
 		documentos.add(documento);
 		this.ExportaExcel(documento, "Alta.xls");
-		this.ExportaExcelEnUnSoloDocumento(documento, "Alta");		
+		this.ExportaExcelEnUnSoloDocumento(documento, "Alta");
 		try {
 			file = new FileWriter("AltaDocumentos.txt", true);
 			pw = new PrintWriter(file);
@@ -205,10 +218,11 @@ public class RepositorioDocumentoImpl implements RepositorioDocumento {
 				pw.println(documento.getDatos());
 				pw.close();
 				this.ExportaExcel(documento, "ListaDocumentos.xls");
+				this.ExportaExcelEnUnSoloDocumento(documento, "Lista");
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			
+
 		}
 		try {
 			file = new FileWriter("documentos.txt", true);
@@ -218,17 +232,15 @@ public class RepositorioDocumentoImpl implements RepositorioDocumento {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
+
 		Logger.info("Saliendo de metodo " + Thread.currentThread().getStackTrace()[1].getMethodName());
 	}
-
-	
 
 	@Override
 	public void ExportaExcel(Documento documento, String opcion) {
 
 		XSSFWorkbook workbook = null;
-		XSSFSheet sheet=null;
+		XSSFSheet sheet = null;
 
 		File archivoExcel = new File(opcion);
 
@@ -249,7 +261,7 @@ public class RepositorioDocumentoImpl implements RepositorioDocumento {
 			sheet = workbook.getSheetAt(0);
 
 		} else {
-			
+
 			workbook = new XSSFWorkbook();
 			sheet = workbook.createSheet("Alumnos");
 			Row row = sheet.createRow(0);
@@ -267,7 +279,7 @@ public class RepositorioDocumentoImpl implements RepositorioDocumento {
 			Cell cell6 = row.createCell(5);
 			cell6.setCellValue("Estado");
 		}
-		
+
 		switch (opcion) {
 		case "Alta.xls":
 			rowNumAlta++;
@@ -287,20 +299,20 @@ public class RepositorioDocumentoImpl implements RepositorioDocumento {
 			break;
 		}
 
-			Row row = sheet.createRow(rowNum);
+		Row row = sheet.createRow(rowNum);
 
-			Cell cell1 = row.createCell(0);
-			cell1.setCellValue(documento.getCodigo());
-			Cell cell2 = row.createCell(1);
-			cell2.setCellValue(documento.getNombre());
-			Cell cell3 = row.createCell(2);
-			cell3.setCellValue(documento.getFechaCreacion() + "");
-			Cell cell4 = row.createCell(3);
-			cell4.setCellValue(documento.getFechaUltimaActualizacion() + "");
-			Cell cell5 = row.createCell(4);
-			cell5.setCellValue((boolean) documento.getPublico());
-			Cell cell6 = row.createCell(5);
-			cell6.setCellValue(documento.getEstado() + "");
+		Cell cell1 = row.createCell(0);
+		cell1.setCellValue(documento.getCodigo());
+		Cell cell2 = row.createCell(1);
+		cell2.setCellValue(documento.getNombre());
+		Cell cell3 = row.createCell(2);
+		cell3.setCellValue(documento.getFechaCreacion() + "");
+		Cell cell4 = row.createCell(3);
+		cell4.setCellValue(documento.getFechaUltimaActualizacion() + "");
+		Cell cell5 = row.createCell(4);
+		cell5.setCellValue((boolean) documento.getPublico());
+		Cell cell6 = row.createCell(5);
+		cell6.setCellValue(documento.getEstado() + "");
 
 		try {
 			FileOutputStream outputStream = new FileOutputStream(opcion);
@@ -314,138 +326,203 @@ public class RepositorioDocumentoImpl implements RepositorioDocumento {
 		}
 		System.out.println("Hecho");
 	}
-	
+
 	@Override
 	public void ExportaExcelEnUnSoloDocumento(Documento documento, String opcion) {
-		int num = 0;
-		
-		XSSFSheet sheet=null;
 
+		XSSFSheet sheett = null;
 		File archivoExcel = new File("Excel.xlsx");
-		XSSFWorkbook workbook = new XSSFWorkbook();
+		XSSFWorkbook workbookk = new XSSFWorkbook();
+		
+		CellStyle style = workbookk.createCellStyle();//Create style
+	    Font font = workbookk.createFont();//Create font
+	    font.setBoldweight(Font.BOLDWEIGHT_BOLD);//Make font bold
+	    style.setFont(font);
+	    style.setFillPattern(XSSFCellStyle.FINE_DOTS );
+	    style.setFillBackgroundColor(IndexedColors.AQUA.getIndex());
+	    style.setFillForegroundColor(IndexedColors.AQUA.getIndex());
+		
+
 		if (!archivoExcel.exists()) {
-		sheet = workbook.createSheet("Alta");
-		Row row = sheet.createRow(0);
-		Cell cell1 = row.createCell(0);
-		cell1.setCellValue("Codigo");
-		Cell cell2 = row.createCell(1);
-		cell2.setCellValue("Nombre");
-		Cell cell3 = row.createCell(2);
-		cell3.setCellValue("FechaCreacion");
-		Cell cell4 = row.createCell(3);
-		cell4.setCellValue("FechaUltimaActualizacion");
-		Cell cell5 = row.createCell(4);
-		cell5.setCellValue("Publico");
-		Cell cell6 = row.createCell(5);
-		cell6.setCellValue("Estado");
-		
-		sheet = workbook.createSheet("Modificar");
-		row = sheet.createRow(0);
-		cell1 = row.createCell(0);
-		cell1.setCellValue("Codigo");
-		cell2 = row.createCell(1);
-		cell2.setCellValue("Nombre");
-		cell3 = row.createCell(2);
-		cell3.setCellValue("FechaCreacion");
-		cell4 = row.createCell(3);
-		cell4.setCellValue("FechaUltimaActualizacion");
-		cell5 = row.createCell(4);
-		cell5.setCellValue("Publico");
-		cell6 = row.createCell(5);
-		
-		sheet = workbook.createSheet("Eliminar");
-		row = sheet.createRow(0);
-		cell1 = row.createCell(0);
-		cell1.setCellValue("Codigo");
-		cell2 = row.createCell(1);
-		cell2.setCellValue("Nombre");
-		cell3 = row.createCell(2);
-		cell3.setCellValue("FechaCreacion");
-		cell4 = row.createCell(3);
-		cell4.setCellValue("FechaUltimaActualizacion");
-		cell5 = row.createCell(4);
-		cell5.setCellValue("Publico");
-		cell6 = row.createCell(5);
-		
-		sheet = workbook.createSheet("Todos los documentos");
-		row = sheet.createRow(0);
-		cell1 = row.createCell(0);
-		cell1.setCellValue("Codigo");
-		cell2 = row.createCell(1);
-		cell2.setCellValue("Nombre");
-		cell3 = row.createCell(2);
-		cell3.setCellValue("FechaCreacion");
-		cell4 = row.createCell(3);
-		cell4.setCellValue("FechaUltimaActualizacion");
-		cell5 = row.createCell(4);
-		cell5.setCellValue("Publico");
-		cell6 = row.createCell(5);
-		}
-// HAsta aqui está bien hecho
-		switch (opcion) {
-			case "Alta":
-				num=0;
-				break;
-			case "Eliminar":
-				num=2;
-				break;
-			case "Modificar":
-				num=1;
-				break;
-			case "Lista":
-				num=3;
-				break;
-			}
 			
-
-		
-		switch (opcion) {
-		case "Alta":
-			rowNumAlta++;
-			rowNum = rowNumAlta;
-			break;
-		case "Eliminar":
-			rowNumEliminar++;
-			rowNum = rowNumEliminar;
-			break;
-		case "Modificar":
-			rowNumMod++;
-			rowNum = rowNumMod;
-			break;
-		case "Lista":
-			rowNumLista++;
-			rowNum = rowNumLista;
-			break;
-		}
-		System.out.println("TPM");
-		sheet = workbook.getSheetAt(num);
-		System.out.println("TPM");
-		Row row = sheet.createRow(rowNum);
-		System.out.println("TPM");
+			sheett = workbookk.createSheet("Alta");
+			Row row = sheett.createRow(0);
 			Cell cell1 = row.createCell(0);
-			cell1.setCellValue(documento.getCodigo());
+			cell1.setCellStyle(style);
+			cell1.setCellValue("Codigo");
 			Cell cell2 = row.createCell(1);
-			cell2.setCellValue(documento.getNombre());
+			cell2.setCellStyle(style);
+			cell2.setCellValue("Nombre");
 			Cell cell3 = row.createCell(2);
-			cell3.setCellValue(documento.getFechaCreacion() + "");
+			cell3.setCellStyle(style);
+			cell3.setCellValue("FechaCreacion");
 			Cell cell4 = row.createCell(3);
-			cell4.setCellValue(documento.getFechaUltimaActualizacion() + "");
+			cell4.setCellStyle(style);
+			cell4.setCellValue("FechaUltimaActualizacion");
 			Cell cell5 = row.createCell(4);
-			cell5.setCellValue((boolean) documento.getPublico());
+			cell5.setCellStyle(style);
+			cell5.setCellValue("Publico");
 			Cell cell6 = row.createCell(5);
-			cell6.setCellValue(documento.getEstado() + "");
+			cell6.setCellStyle(style);
+			cell6.setCellValue("Estado");
+			
+			sheett.autoSizeColumn(0);
+			sheett.autoSizeColumn(1);
+			sheett.autoSizeColumn(2);
+			sheett.autoSizeColumn(3);
+			sheett.autoSizeColumn(4);
+			sheett.autoSizeColumn(5);
 
-		try {
-			FileOutputStream outputStream = new FileOutputStream(archivoExcel);
-			workbook.write(outputStream);
-			outputStream.close();
-			workbook.close();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
+			sheett = workbookk.createSheet("Modificar");
+			row = sheett.createRow(0);
+			cell1 = row.createCell(0);
+			cell1.setCellStyle(style);
+			cell1.setCellValue("Codigo");
+			cell2 = row.createCell(1);
+			cell2.setCellStyle(style);
+			cell2.setCellValue("Nombre");
+			cell3 = row.createCell(2);
+			cell3.setCellStyle(style);
+			cell3.setCellValue("FechaCreacion");
+			cell4 = row.createCell(3);
+			cell4.setCellStyle(style);
+			cell4.setCellValue("FechaUltimaActualizacion");
+			cell5 = row.createCell(4);
+			cell5.setCellStyle(style);
+			cell5.setCellValue("Publico");
+			cell6 = row.createCell(5);
+			cell6.setCellStyle(style);
+			cell6.setCellValue("Estado");
+			
+			sheett.autoSizeColumn(0);
+			sheett.autoSizeColumn(1);
+			sheett.autoSizeColumn(2);
+			sheett.autoSizeColumn(3);
+			sheett.autoSizeColumn(4);
+			sheett.autoSizeColumn(5);
+
+			sheett = workbookk.createSheet("Eliminar");
+			row = sheett.createRow(0);
+			row = sheett.createRow(0);
+			cell1 = row.createCell(0);
+			cell1.setCellStyle(style);
+			cell1.setCellValue("Codigo");
+			cell2 = row.createCell(1);
+			cell2.setCellStyle(style);
+			cell2.setCellValue("Nombre");
+			cell3 = row.createCell(2);
+			cell3.setCellStyle(style);
+			cell3.setCellValue("FechaCreacion");
+			cell4 = row.createCell(3);
+			cell4.setCellStyle(style);
+			cell4.setCellValue("FechaUltimaActualizacion");
+			cell5 = row.createCell(4);
+			cell5.setCellStyle(style);
+			cell5.setCellValue("Publico");
+			cell6 = row.createCell(5);
+			cell6.setCellStyle(style);
+			cell6.setCellValue("Estado");
+			
+			sheett.autoSizeColumn(0);
+			sheett.autoSizeColumn(1);
+			sheett.autoSizeColumn(2);
+			sheett.autoSizeColumn(3);
+			sheett.autoSizeColumn(4);
+			sheett.autoSizeColumn(5);
+
+			sheett = workbookk.createSheet("Lista");
+			row = sheett.createRow(0);
+			cell1 = row.createCell(0);
+			cell1.setCellStyle(style);
+			cell1.setCellValue("Codigo");
+			cell2 = row.createCell(1);
+			cell2.setCellStyle(style);
+			cell2.setCellValue("Nombre");
+			cell3 = row.createCell(2);
+			cell3.setCellStyle(style);
+			cell3.setCellValue("FechaCreacion");
+			cell4 = row.createCell(3);
+			cell4.setCellStyle(style);
+			cell4.setCellValue("FechaUltimaActualizacion");
+			cell5 = row.createCell(4);
+			cell5.setCellStyle(style);
+			cell5.setCellValue("Publico");
+			cell6 = row.createCell(5);
+			cell6.setCellStyle(style);
+			cell6.setCellValue("Estado");
+			
+			sheett.autoSizeColumn(0);
+			sheett.autoSizeColumn(1);
+			sheett.autoSizeColumn(2);
+			sheett.autoSizeColumn(3);
+			sheett.autoSizeColumn(4);
+			sheett.autoSizeColumn(5);
+			
+///////////////////////////////////////////////////////
+			try {
+				FileOutputStream outputStream = new FileOutputStream(archivoExcel);
+				workbookk.write(outputStream);
+				outputStream.close();
+				workbookk.close();
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			System.out.println("Hecho");
 		}
-		System.out.println("Hecho");
+		try {
+			FileInputStream inputStream = new FileInputStream(new File("Excel.xlsx"));
+			Workbook workbook = WorkbookFactory.create(inputStream);
+
+			Sheet sheet = workbook.getSheet(opcion);
+
+			Object[] bookData = { documento.getCodigo(), documento.getNombre(), documento.getFechaCreacion()+"",
+					documento.getFechaUltimaActualizacion()+"", documento.getPublico()+"", documento.getEstado()+"" };
+
+			int rowCount = sheet.getLastRowNum();
+
+			Row row = sheet.createRow(++rowCount);
+			
+			CellStyle style2 = workbook.createCellStyle();
+		    Font font2 = workbook.createFont();
+		    style2.setFont(font);
+		    style2.setFillPattern(XSSFCellStyle.FINE_DOTS );
+		    style2.setFillBackgroundColor(IndexedColors.LAVENDER.getIndex());
+		    style2.setFillForegroundColor(IndexedColors.LAVENDER.getIndex());
+		    
+		    
+		    
+			int columnCount = 0;
+
+			Cell cell = row.createCell(columnCount);
+			cell.setCellValue(rowCount);
+			
+			for (Object field : bookData) {
+				cell = row.createCell(columnCount++);
+				if (field instanceof String) {
+					cell.setCellValue((String) field);
+					if (rowCount%2==0)cell.setCellStyle(style2);
+				} else if (field instanceof Integer) {
+					cell.setCellValue((Integer) field);
+					if (rowCount%2==0)cell.setCellStyle(style2);
+				}
+				sheet.autoSizeColumn(1);
+				sheet.autoSizeColumn(2);
+				sheet.autoSizeColumn(3);
+			}
+
+			inputStream.close();
+
+			FileOutputStream outputStream = new FileOutputStream("Excel.xlsx");
+			workbook.write(outputStream);
+			workbook.close();
+			outputStream.close();
+
+		} catch (IOException | EncryptedDocumentException | InvalidFormatException ex) {
+			ex.printStackTrace();
+		}
+
 	}
-	
+
 }
