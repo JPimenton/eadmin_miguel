@@ -61,7 +61,6 @@ public class RepositorioDocumentoImpl implements RepositorioDocumento {
 		}
 
 		documentos.add(documento);
-		this.ExportaExcel(documento, "Alta.xls");
 		Logger.info(documento.toString() + " se ha creado correctamente");
 		Logger.info("Saliendo de metodo " + Thread.currentThread().getStackTrace()[1].getMethodName());
 	}
@@ -75,8 +74,8 @@ public class RepositorioDocumentoImpl implements RepositorioDocumento {
 		}
 
 		documentos.add(documento);
-		this.ExportaExcel(documento, "Alta.xls");
-		this.ExportaExcelEnUnSoloDocumento(documento, "Alta");
+		//this.ExportaExcel(documento, "Alta.xls");
+		//this.ExportaExcelEnUnSoloDocumento(documento, "Alta");
 		try {
 			file = new FileWriter("AltaDocumentos.txt", true);
 			pw = new PrintWriter(file);
@@ -109,8 +108,8 @@ public class RepositorioDocumentoImpl implements RepositorioDocumento {
 		}
 
 		documentos.set(documentos.indexOf(documento), documentoNuevo);
-		this.ExportaExcel(documentoNuevo, "Modificar.xls");
-		this.ExportaExcelEnUnSoloDocumento(documentoNuevo, "Modificar");
+		//this.ExportaExcel(documentoNuevo, "Modificar.xls");
+		//this.ExportaExcelEnUnSoloDocumento(documentoNuevo, "Modificar");
 		try {
 			file = new FileWriter("ModificarDocumentos.txt", true);
 			pw = new PrintWriter(file);
@@ -145,8 +144,8 @@ public class RepositorioDocumentoImpl implements RepositorioDocumento {
 		if (Objects.nonNull(documentoAEliminar)) {
 			Logger.info("Eliminando " + documentoAEliminar.toString());
 			documentos.remove(documentoAEliminar);
-			this.ExportaExcel(documentoAEliminar, "Eliminar.xls");
-			this.ExportaExcelEnUnSoloDocumento(documentoAEliminar, "Eliminar");
+			//this.ExportaExcel(documentoAEliminar, "Eliminar.xls");
+			//this.ExportaExcelEnUnSoloDocumento(documentoAEliminar, "Eliminar");
 			try {
 				file = new FileWriter("EliminarDocumentos.txt", true);
 				pw = new PrintWriter(file);
@@ -217,8 +216,8 @@ public class RepositorioDocumentoImpl implements RepositorioDocumento {
 				pw = new PrintWriter(file);
 				pw.println(documento.getDatos());
 				pw.close();
-				this.ExportaExcel(documento, "ListaDocumentos.xls");
-				this.ExportaExcelEnUnSoloDocumento(documento, "Lista");
+				//this.ExportaExcel(documento, "ListaDocumentos.xls");
+				//this.ExportaExcelEnUnSoloDocumento(documento, "Lista");
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
