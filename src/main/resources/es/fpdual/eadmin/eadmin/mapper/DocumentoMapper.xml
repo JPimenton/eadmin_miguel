@@ -44,7 +44,7 @@
 
 	</select>
 
-	<resultMap id="crearDocumento" type="Documento.java">
+	<resultMap id="crearDocumento" type="es.fpdual.eadmin.eadmin.modelo.Documento.java">
 		<constructor>
 			<idArg column="codigo" javaType="Integer" />
 			<arg column="nombre" javaType="String" />
