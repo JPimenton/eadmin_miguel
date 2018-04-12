@@ -10,7 +10,7 @@
  			esPublico,
  			tipo,
  			estadoDocumento
- 		)SET VALUES(
+ 		) VALUES(
  			#{documento.codigo},
  			#{documento.nombre},
  			#{documento.fechaCreacion},
