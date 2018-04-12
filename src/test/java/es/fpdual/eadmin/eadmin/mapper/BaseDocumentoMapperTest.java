@@ -11,11 +11,12 @@ import static org.mockito.Mockito.*;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 import es.fpdual.eadmin.eadmin.modelo.Documento;
 import es.fpdual.eadmin.eadmin.modelo.EstadoDocumento;
-import es.fpdual.eadmin.eadmin.repositorio.impl.RepositorioDocumentoImpl;
 
+@Transactional("eadminTransactionManager")
 public abstract class BaseDocumentoMapperTest {
 
 	@Autowired
@@ -34,8 +35,28 @@ public abstract class BaseDocumentoMapperTest {
 	@Test
 	public void deberiaInsertarUnDocumento() throws Exception {
 		int num = mapper.insertarDocumento(documento);
-		
 		assertEquals(1,num); 
+	}
+	
+	@Test
+	public void deberiaBorrarUnDocumento() throws Exception {
+		mapper.insertarDocumento(documento);
+		int num = mapper.borrarDocumento(1);
+		assertEquals(1,num); 
+	}
+	
+	@Test
+	public void deberiaModificarUnDocumento() throws Exception {
+		mapper.insertarDocumento(documento);
+		int num = mapper.modificarDocumento(documento);
+		assertEquals(1,num); 
+	}
+	
+	@Test
+	public void deberiaConsultarUnDocumento() throws Exception {
+		mapper.insertarDocumento(documento);
+		Documento resultado = mapper.consultarDocumento(1);
+		assertEquals(resultado,documento); 
 	}
 	
 }

@@ -1,24 +1,58 @@
  <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD MAPPER 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
- <mapper namespace="es.fpdual.eadmin.eadmin.mapper.DocumentoMapper">
- 
- 	<insert id="insertarDocumento">
- 		INSERT INTO ELEMENTO (
- 			codigo,
- 			nombre,
- 			fechaCreacion,
- 			fechaUltimaActualizacion,
- 			esPublico,
- 			tipo,
- 			estadoDocumento
- 		) VALUES(
- 			#{documento.codigo},
- 			#{documento.nombre},
- 			#{documento.fechaCreacion},
- 			#{documento.fechaUltimaActualizacion},
- 			#{documento.publico},
- 			1,
- 			#{documento.estado.codigo}
- 		)
- 	</insert>
- 
- </mapper>
+<mapper namespace="es.fpdual.eadmin.eadmin.mapper.DocumentoMapper">
+
+	<insert id="insertarDocumento">
+		INSERT INTO ELEMENTO (
+		codigo,
+		nombre,
+		fechaCreacion,
+		fechaUltimaActualizacion,
+		esPublico,
+		tipo,
+		estadoDocumento
+		) VALUES(
+		#{documento.codigo},
+		#{documento.nombre},
+		#{documento.fechaCreacion},
+		#{documento.fechaUltimaActualizacion},
+		#{documento.publico},
+		1,
+		#{documento.estado.codigo}
+		)
+	</insert>
+
+	<delete id="borrarDocumento">
+		DELETE FROM ELEMENTO WHERE codigo = #{documento}
+
+	</delete>
+
+	<update id="modificarDocumento">
+		UPDATE ELEMENTO
+		SET codigo = #{documento.codigo},
+		nombre = #{documento.nombre},
+		fechaCreacion = #{documento.fechaCreacion},
+		fechaUltimaActualizacion = #{documento.fechaUltimaActualizacion},
+		esPublico = #{documento.publico},
+		tipo = 1,
+		estadoDocumento = #{documento.estado.codigo}
+		WHERE codigo = #{documento.codigo}
+	</update>
+
+
+	<select id="consultarDocumento" resultMap="crearDocumento">
+		SELECT * FROM ELEMENTO WHERE codigo = #{numero}
+
+	</select>
+
+	<resultMap id="crearDocumento" type="Documento.java">
+		<constructor>
+			<idArg column="codigo" javaType="Integer" />
+			<arg column="nombre" javaType="String" />
+			<arg column="fechaCreacion" javaType="Date" />
+			<arg column="fechaUltimaActualizacion" javaType="Date" />
+			<arg column="esPublico" javaType="Boolean" />
+			
+		</constructor>
+	</resultMap>
+
+</mapper>

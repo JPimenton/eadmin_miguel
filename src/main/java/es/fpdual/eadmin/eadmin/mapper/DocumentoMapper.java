@@ -8,5 +8,10 @@ public interface DocumentoMapper {
 
 	int insertarDocumento(@Param("documento") Documento documento);
 
+	int borrarDocumento(@Param("documento") Integer cod);
+	
+	int modificarDocumento(@Param("documento") Documento documento);
+	
+	Documento consultarDocumento(@Param("numero") Integer num);
 	//es/pfdual/eadmin/eadmin/mapper
 }
