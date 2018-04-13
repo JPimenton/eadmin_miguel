@@ -46,7 +46,7 @@ public class ElementoBaseAdministracionElectronicaTest {
 	@Test
 	public void deberiaDevolverTrueSiTienenIgualCodigo() {
 		
-		final Documento elementoBaseAdministracionElectronica2 = new Documento(CODIGO_DOCUMENTO, null, null, null, null, EstadoDocumento.ACTIVO);
+		final Documento elementoBaseAdministracionElectronica2 = new Documento(CODIGO_DOCUMENTO, null, null, null, null, (EstadoDocumento) null);
 		
 		final Boolean resultado = elementoBaseAdministracionElectronica2.equals(elementoBaseAdministracionElectronica);
 		
@@ -56,7 +56,7 @@ public class ElementoBaseAdministracionElectronicaTest {
 	@Test
 	public void deberiaDevolverFalseSiNoTienenIgualCodigo() {
 		
-		final Documento elementoBaseAdministracionElectronica2 = new Documento(5, null, null, null, null, EstadoDocumento.ACTIVO);
+		final Documento elementoBaseAdministracionElectronica2 = new Documento(5, null, null, null, null, (Integer) null);
 		
 		final Boolean resultado = elementoBaseAdministracionElectronica2.equals(elementoBaseAdministracionElectronica);
 		
