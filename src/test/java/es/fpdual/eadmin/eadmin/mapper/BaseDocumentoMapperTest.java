@@ -1,7 +1,4 @@
 package es.fpdual.eadmin.eadmin.mapper;
-
-import static org.junit.Assert.*;
-
 import java.util.Date;
 
 import static org.hamcrest.Matchers.*;
@@ -48,14 +45,25 @@ public abstract class BaseDocumentoMapperTest {
 	@Test
 	public void deberiaModificarUnDocumento() throws Exception {
 		mapper.insertarDocumento(documento);
-		int num = mapper.modificarDocumento(documento);
+		Documento documentoModificado = 
+		
+				new Documento(CODIGO_DOCUMENTO, NOMBRE_DOCUMENTO, FECHA_CREACION,
+				FECHA_ULTIMA_MODIFICACION, DOCUMENTO_PUBLICO, EstadoDocumento.APROBADO);
+		
+		int num = mapper.modificarDocumento(documentoModificado);
+		
 		assertEquals(1,num); 
+		
+		
+		Documento documentoActualizado = mapper.consultarDocumento(1);
+		assertThat(documentoModificado, is(documentoActualizado));
 	}
 	
 	@Test
 	public void deberiaConsultarUnDocumento() throws Exception {
 		mapper.insertarDocumento(documento);
 		Documento resultado = mapper.consultarDocumento(1);
+		
 		assertEquals(resultado,documento); 
 	}
 	
