@@ -28,15 +28,19 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import es.fpdual.eadmin.eadmin.EadminApplication;
+import es.fpdual.eadmin.eadmin.mapper.DocumentoMapper;
 import es.fpdual.eadmin.eadmin.modelo.Documento;
 import es.fpdual.eadmin.eadmin.repositorio.RepositorioDocumento;
 
 @Repository
 public class RepositorioDocumentoImpl implements RepositorioDocumento {
 
+	private DocumentoMapper mapper;
+	
 	private List<Documento> documentos = new ArrayList<>();
 	private static final Logger Logger = LoggerFactory.getLogger(RepositorioDocumentoImpl.class);
 	FileWriter file;
@@ -52,9 +56,15 @@ public class RepositorioDocumentoImpl implements RepositorioDocumento {
 	int rowNumLista2 = 0;
 	int rowNum2;
 
+	@Autowired
+	public RepositorioDocumentoImpl (DocumentoMapper mapper) {
+		this.mapper = mapper;
+					
+	}
+	
 	@Override
 	public void altaDocumento(Documento documento) {
-		Logger.info("Entrando en metodo " + Thread.currentThread().getStackTrace()[1].getMethodName());
+		/*Logger.info("Entrando en metodo " + Thread.currentThread().getStackTrace()[1].getMethodName());
 
 		if (documentos.contains(documento)) {
 			throw new IllegalArgumentException("El documento ya existe");
@@ -63,7 +73,9 @@ public class RepositorioDocumentoImpl implements RepositorioDocumento {
 		documentos.add(documento);
 		Logger.info(documento.toString() + " se ha creado correctamente");
 		Logger.info("Saliendo de metodo " + Thread.currentThread().getStackTrace()[1].getMethodName());
-	}
+		 
+		
+		}
 
 	@Override
 	public void altaDocumentoConArchivo(Documento documento) {
@@ -87,11 +99,14 @@ public class RepositorioDocumentoImpl implements RepositorioDocumento {
 		}
 		Logger.info(documento.toString() + " se ha creado correctamente");
 		Logger.info("Saliendo de metodo " + Thread.currentThread().getStackTrace()[1].getMethodName());
+	*/
+		this.mapper.insertarDocumento(documento);
+		
 	}
 
 	@Override
 	public void modificarDocumento(Documento documento, Documento documentoNuevo) {
-		Logger.info("Entrando en metodo " + Thread.currentThread().getStackTrace()[1].getMethodName());
+		/*Logger.info("Entrando en metodo " + Thread.currentThread().getStackTrace()[1].getMethodName());
 		if (!documentos.contains(documento)) {
 			throw new IllegalArgumentException("El documento a modificar no existe");
 		}
@@ -120,11 +135,13 @@ public class RepositorioDocumentoImpl implements RepositorioDocumento {
 			e.printStackTrace();
 		}
 		Logger.info("Saliendo de metodo " + Thread.currentThread().getStackTrace()[1].getMethodName());
+	*/
+		mapper.modificarDocumento(documento);
 	}
 
 	@Override
 	public void eliminarDocumento(Integer codigo) {
-		Logger.info("Entrando en metodo " + Thread.currentThread().getStackTrace()[1].getMethodName());
+		/*Logger.info("Entrando en metodo " + Thread.currentThread().getStackTrace()[1].getMethodName());
 		final Documento documentoAEliminar = this.obtenerDocumentoPorCodigo(codigo);
 		Logger.info("Eliminando " + documentoAEliminar.toString());
 
@@ -157,8 +174,8 @@ public class RepositorioDocumentoImpl implements RepositorioDocumento {
 			}
 			Logger.info(documentoAEliminar.toString() + " se ha eliminado");
 			Logger.info("Saliendo de metodo " + Thread.currentThread().getStackTrace()[1].getMethodName());
-		}
-
+		}*/
+		this.mapper.borrarDocumento(codigo);
 	}
 
 	@Override

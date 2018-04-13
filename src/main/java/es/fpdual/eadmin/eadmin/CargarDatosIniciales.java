@@ -51,7 +51,7 @@ public class CargarDatosIniciales implements ApplicationRunner {
 		
 		Expediente exp2Modificado = new Expediente(2, "expediente2", fecha, fecha, fecha, true, EstadoExpediente.INICIADO,documentos);
 		Expediente exp4Modificado = new Expediente(4, "expediente4", fecha, fecha, fecha, false, EstadoExpediente.INICIADO,documentos);
-		*/
+		
 		this.repositorioDocumento.altaDocumentoConArchivo(doc1);
 		this.repositorioDocumento.altaDocumentoConArchivo(doc2);
 		this.repositorioDocumento.altaDocumentoConArchivo(doc3);
@@ -65,7 +65,7 @@ public class CargarDatosIniciales implements ApplicationRunner {
 		this.repositorioDocumento.eliminarDocumentoConArchivo(doc3.getCodigo());
 		this.repositorioDocumento.eliminarDocumentoConArchivo(doc5.getCodigo());
 		this.repositorioDocumento.GuardarDocumentoEnArchivo();
-/*
+
 		this.repositorioExpediente.altaExpedienteConArchivo(exp1);
 		this.repositorioExpediente.altaExpedienteConArchivo(exp2);
 		this.repositorioExpediente.altaExpedienteConArchivo(exp3);

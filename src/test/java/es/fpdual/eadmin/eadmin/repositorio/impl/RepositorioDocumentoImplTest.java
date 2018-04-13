@@ -32,7 +32,6 @@ public class RepositorioDocumentoImplTest {
 	public void inicializarEnCadaTest() {
 		this.repositorioDocumento = new RepositorioDocumentoImpl();
 		
-		
 	}
 	
 	@Test

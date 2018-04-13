@@ -18,13 +18,13 @@ public interface RepositorioDocumento {
 	public abstract List<Documento> obtenerTodosLosDocumentos();
 	
 	public void GuardarDocumentoEnArchivo();
-	
+/*	
 	public void altaDocumentoConArchivo(Documento documento);
 	
 	public void modificarDocumentoConArchivo(Documento documento, Documento documentoNuevo);
 	
 	public void eliminarDocumentoConArchivo(Integer codigo);
-
+*/
 	void ExportaExcel(Documento documento, String mode);
 
 	void ExportaExcelEnUnSoloDocumento(Documento documento, String opcion);

@@ -16,7 +16,7 @@ public class Documento extends ElementoBaseAdministracionElectronica {
 		this.estado = estado;
 	}
 	
-	public Documento (Integer codigo, String nombre, Date fechaCreacion, 
+	/*public Documento (Integer codigo, String nombre, Date fechaCreacion, 
 			Date fechaUltimaActualizacion, Boolean publico, Integer estate) {
 		super(codigo, nombre, fechaCreacion, fechaUltimaActualizacion, publico);
 		
@@ -27,7 +27,7 @@ public class Documento extends ElementoBaseAdministracionElectronica {
 			default: this.estado = null;break;
 		}
 		
-	}
+	}*/
 	
 	public EstadoDocumento getEstado() {
 		return estado;

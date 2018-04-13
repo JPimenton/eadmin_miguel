@@ -51,7 +51,7 @@
 			<arg column="fechaCreacion" javaType="Date" />
 			<arg column="fechaUltimaActualizacion" javaType="Date" />
 			<arg column="esPublico" javaType="Boolean" />
-			<arg column="estadoDocumento" javaType="Integer" />
+			<arg column="estadoDocumento" javaType="es.fpdual.eadmin.eadmin.modelo.EstadoDocumento" typeHandler="es.fpdual.eadmin.eadmin.mapper.handlers.EstadoDocumentoTypeHandler"/>
 		</constructor>
 	</resultMap>
 
