@@ -2,6 +2,9 @@ package es.fpdual.eadmin.eadmin.modelo;
 
 import java.util.Date;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+
 public abstract  class ElementoBaseAdministracionElectronica {
 	
 	protected final Integer codigo;
@@ -44,14 +47,29 @@ public abstract  class ElementoBaseAdministracionElectronica {
 	public boolean equals(Object obj) {
 		
 		if (obj instanceof ElementoBaseAdministracionElectronica) {
-			return codigo.equals(((ElementoBaseAdministracionElectronica) obj).getCodigo());
+			final ElementoBaseAdministracionElectronica param = (ElementoBaseAdministracionElectronica)obj;
+			final EqualsBuilder equalsBuilder = new EqualsBuilder();
+			
+			equalsBuilder.append(this.codigo, param.codigo);
+			equalsBuilder.append(this.nombre, param.nombre);
+			equalsBuilder.append(this.fechaCreacion, param.fechaCreacion);
+			equalsBuilder.append(this.fechaUltimaActualizacion, param.fechaUltimaActualizacion);
+			equalsBuilder.append(this.publico, param.publico);
+			
+			return equalsBuilder.isEquals();
 		} 
 		return false;
 	}
 	
 	@Override
 	public int hashCode() {
-		return codigo.hashCode();
+		HashCodeBuilder hashCodeBuilder = new HashCodeBuilder();
+		hashCodeBuilder.append(codigo);
+		hashCodeBuilder.append(nombre);
+		hashCodeBuilder.append(fechaCreacion);
+		hashCodeBuilder.append(fechaUltimaActualizacion);
+		hashCodeBuilder.append(publico);
+		return hashCodeBuilder.toHashCode();
 	}
 	
 }

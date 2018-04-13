@@ -1,4 +1,5 @@
 package es.fpdual.eadmin.eadmin.mapper;
+import java.time.LocalDate;
 import java.util.Date;
 
 import static org.hamcrest.Matchers.*;
@@ -12,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import es.fpdual.eadmin.eadmin.modelo.Documento;
 import es.fpdual.eadmin.eadmin.modelo.EstadoDocumento;
+import es.fpdual.eadmin.eadmin.util.Utilidades;
 
 @Transactional("eadminTransactionManager")
 public abstract class BaseDocumentoMapperTest {
@@ -19,8 +21,8 @@ public abstract class BaseDocumentoMapperTest {
 	@Autowired
 	private DocumentoMapper mapper;
 
-	private static final Date FECHA_CREACION = new Date();
-	private static final Date FECHA_ULTIMA_MODIFICACION = new Date();
+	private static final Date FECHA_CREACION = Utilidades.asDate(LocalDate.of(2015, 1, 1));
+	private static final Date FECHA_ULTIMA_MODIFICACION = Utilidades.asDate(LocalDate.of(2015, 1, 1));
 	private static final String NOMBRE_DOCUMENTO = "nombre";
 	private static final boolean DOCUMENTO_PUBLICO = true;
 	private static final Integer CODIGO_DOCUMENTO = 1;

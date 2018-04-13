@@ -28,7 +28,7 @@
 
 	<update id="modificarDocumento">
 		UPDATE ELEMENTO
-		SET codigo = #{documento.codigo},
+		SET 
 		nombre = #{documento.nombre},
 		fechaCreacion = #{documento.fechaCreacion},
 		fechaUltimaActualizacion = #{documento.fechaUltimaActualizacion},
