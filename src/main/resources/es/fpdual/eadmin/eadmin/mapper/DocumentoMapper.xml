@@ -22,7 +22,7 @@
 	</insert>
 
 	<delete id="borrarDocumento">
-		DELETE FROM ELEMENTO WHERE codigo = #{documento}
+		DELETE FROM ELEMENTO WHERE codigo = #{codigo}
 
 	</delete>
 
@@ -37,13 +37,23 @@
 		estadoDocumento = #{documento.estado.codigo}
 		WHERE codigo = #{documento.codigo}
 	</update>
-
-
-	<select id="consultarDocumento" resultMap="crearDocumento">
-		SELECT * FROM ELEMENTO WHERE codigo = #{numero}
-
+	
+	<select id="consultarTodosDocumento" resultMap="crearDocumento">
+		<include refid="baseSelectDocumento"/>
 	</select>
-
+	
+	<select id="consultarDocumento" resultMap="crearDocumento">
+		<include refid="baseSelectDocumento"/> AND codigo = #{codigo}
+	</select>
+	
+	<select id="obtenerMaximo" resultType="Integer">
+		SELECT ISNULL(MAX(codigo),0) + 1 FROM ELEMENTO
+	</select>
+	
+	<sql id="baseSelectDocumento">
+		SELECT * FROM ELEMENTO 
+	</sql>
+	
 	<resultMap id="crearDocumento" type="es.fpdual.eadmin.eadmin.modelo.Documento">
 		<constructor>
 			<idArg column="codigo" javaType="Integer" />
@@ -54,5 +64,7 @@
 			<arg column="estadoDocumento" javaType="es.fpdual.eadmin.eadmin.modelo.EstadoDocumento" typeHandler="es.fpdual.eadmin.eadmin.mapper.handlers.EstadoDocumentoTypeHandler"/>
 		</constructor>
 	</resultMap>
+	
+	
 
 </mapper>

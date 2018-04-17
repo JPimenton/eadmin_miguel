@@ -1,6 +1,7 @@
 package es.fpdual.eadmin.eadmin.mapper;
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.List;
 
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
@@ -64,9 +65,42 @@ public abstract class BaseDocumentoMapperTest {
 	@Test
 	public void deberiaConsultarUnDocumento() throws Exception {
 		mapper.insertarDocumento(documento);
-		Documento resultado = mapper.consultarDocumento(1);
+		Documento resultado = mapper.consultarDocumento(documento.getCodigo());
 		
 		assertEquals(resultado,documento); 
 	}
 	
+	@Test
+	public void deberiaActualizarTodosLosCamposDeUnDocumento() throws Exception {
+		//DECLARACION
+		final Documento documentoActualizado = new Documento(1, "Documento mod",Utilidades.asDate(LocalDate.of(2015, 2, 2)), Utilidades.asDate(LocalDate.of(2015, 2, 2)), false,
+				EstadoDocumento.APROBADO);
+		
+		//Entrenamiento
+		this.mapper.insertarDocumento(this.documento);
+		//PRUEBA
+		final int resultado = this.mapper.modificarDocumento(documentoActualizado);
+		
+		//VERIFICACION
+		assertThat(resultado,is(1));
+		
+		final Documento documentoModificado = this.mapper.consultarDocumento(1);
+		assertThat(documentoModificado,is(documentoActualizado));
+		}
+		
+		
+		@Test
+		public void deberiaRecuperarTodosLosDocumentos() throws Exception {
+			
+			final Documento documento2 = new Documento(2, NOMBRE_DOCUMENTO, FECHA_CREACION, FECHA_ULTIMA_MODIFICACION,
+					DOCUMENTO_PUBLICO, EstadoDocumento.ACTIVO);
+			
+			this.mapper.insertarDocumento(this.documento);
+			this.mapper.insertarDocumento(documento2);
+			
+			final List<Documento> resultado= this.mapper.consultarTodosDocumento();
+			
+			assertThat(resultado,hasSize(2));
+			assertThat(resultado,hasItems(documento,documento2));
+		}
 }

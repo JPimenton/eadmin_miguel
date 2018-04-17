@@ -32,8 +32,8 @@ public class CargarDatosIniciales implements ApplicationRunner {
 
 	@Override
 	public void run(ApplicationArguments args) throws Exception {
-		List<Documento> documentos = new ArrayList<>();
-		
+		//List<Documento> documentos = new ArrayList<>();
+		System.out.println("0");
 		Documento doc1 = new Documento(1, "documento1", fecha, fecha, true, EstadoDocumento.ACTIVO);
 		Documento doc2 = new Documento(2, "documento2", fecha, fecha, false, EstadoDocumento.ACTIVO);
 		Documento doc3 = new Documento(3, "documento3", fecha, fecha, true, EstadoDocumento.ACTIVO);
@@ -50,22 +50,25 @@ public class CargarDatosIniciales implements ApplicationRunner {
 		Expediente exp5 = new Expediente(5, "expediente5", fecha, fecha, fecha, true, EstadoExpediente.INICIADO,documentos);
 		
 		Expediente exp2Modificado = new Expediente(2, "expediente2", fecha, fecha, fecha, true, EstadoExpediente.INICIADO,documentos);
-		Expediente exp4Modificado = new Expediente(4, "expediente4", fecha, fecha, fecha, false, EstadoExpediente.INICIADO,documentos);
+		Expediente exp4Modificado = new Expediente(4, "expediente4", fecha, fecha, fecha, false, EstadoExpediente.INICIADO,documentos);*/
 		
-		this.repositorioDocumento.altaDocumentoConArchivo(doc1);
-		this.repositorioDocumento.altaDocumentoConArchivo(doc2);
-		this.repositorioDocumento.altaDocumentoConArchivo(doc3);
-		this.repositorioDocumento.altaDocumentoConArchivo(doc4);
-		this.repositorioDocumento.altaDocumentoConArchivo(doc5);
-		this.repositorioDocumento.GuardarDocumentoEnArchivo();
-		this.repositorioDocumento.modificarDocumentoConArchivo(doc2,doc2Modificado);
-		this.repositorioDocumento.modificarDocumentoConArchivo(doc4,doc4Modificado);
-		this.repositorioDocumento.GuardarDocumentoEnArchivo();
-		this.repositorioDocumento.eliminarDocumentoConArchivo(doc1.getCodigo());
-		this.repositorioDocumento.eliminarDocumentoConArchivo(doc3.getCodigo());
-		this.repositorioDocumento.eliminarDocumentoConArchivo(doc5.getCodigo());
-		this.repositorioDocumento.GuardarDocumentoEnArchivo();
-
+		this.repositorioDocumento.altaDocumento(doc1);
+		this.repositorioDocumento.altaDocumento(doc2);
+		this.repositorioDocumento.altaDocumento(doc3);
+		this.repositorioDocumento.altaDocumento(doc4);
+		this.repositorioDocumento.altaDocumento(doc5);
+		//this.repositorioDocumento.GuardarDocumentoEnArchivo();
+		System.out.println("1");
+		this.repositorioDocumento.modificarDocumento(doc2Modificado,doc2Modificado);
+		this.repositorioDocumento.modificarDocumento(doc4Modificado,doc4Modificado);
+		//this.repositorioDocumento.GuardarDocumentoEnArchivo();
+		System.out.println("2");
+		this.repositorioDocumento.eliminarDocumento(doc1.getCodigo());
+		this.repositorioDocumento.eliminarDocumento(doc3.getCodigo());
+		this.repositorioDocumento.eliminarDocumento(doc5.getCodigo());
+		System.out.println("3");
+		//this.repositorioDocumento.GuardarDocumentoEnArchivo();
+/*
 		this.repositorioExpediente.altaExpedienteConArchivo(exp1);
 		this.repositorioExpediente.altaExpedienteConArchivo(exp2);
 		this.repositorioExpediente.altaExpedienteConArchivo(exp3);

@@ -34,6 +34,7 @@ import org.springframework.stereotype.Repository;
 import es.fpdual.eadmin.eadmin.EadminApplication;
 import es.fpdual.eadmin.eadmin.mapper.DocumentoMapper;
 import es.fpdual.eadmin.eadmin.modelo.Documento;
+import es.fpdual.eadmin.eadmin.modelo.builder.DocumentoBuilder;
 import es.fpdual.eadmin.eadmin.repositorio.RepositorioDocumento;
 
 @Repository
@@ -41,7 +42,7 @@ public class RepositorioDocumentoImpl implements RepositorioDocumento {
 
 	private DocumentoMapper mapper;
 	
-	private List<Documento> documentos = new ArrayList<>();
+	//private List<Documento> documentos = new ArrayList<>();
 	private static final Logger Logger = LoggerFactory.getLogger(RepositorioDocumentoImpl.class);
 	FileWriter file;
 	PrintWriter pw;
@@ -100,7 +101,11 @@ public class RepositorioDocumentoImpl implements RepositorioDocumento {
 		Logger.info(documento.toString() + " se ha creado correctamente");
 		Logger.info("Saliendo de metodo " + Thread.currentThread().getStackTrace()[1].getMethodName());
 	*/
-		this.mapper.insertarDocumento(documento);
+		
+		int posicion = this.mapper.obtenerMaximo();
+		Documento documentonuevo = new DocumentoBuilder().clonar(documento).conCodigo(posicion).construir();
+		this.mapper.insertarDocumento(documentonuevo);
+		
 		
 	}
 
@@ -136,7 +141,11 @@ public class RepositorioDocumentoImpl implements RepositorioDocumento {
 		}
 		Logger.info("Saliendo de metodo " + Thread.currentThread().getStackTrace()[1].getMethodName());
 	*/
-		mapper.modificarDocumento(documento);
+		int resultado = mapper.modificarDocumento(documento);
+		if (resultado==0) {
+			throw new IllegalArgumentException ("No se encuentra el archivo");
+		}
+		
 	}
 
 	@Override
@@ -180,7 +189,7 @@ public class RepositorioDocumentoImpl implements RepositorioDocumento {
 
 	@Override
 	public Documento obtenerDocumentoPorCodigo(Integer codigo) {
-		Logger.info("Entrando en metodo " + Thread.currentThread().getStackTrace()[1].getMethodName());
+		/*Logger.info("Entrando en metodo " + Thread.currentThread().getStackTrace()[1].getMethodName());
 		Logger.info("Buscando documento con codigo " + codigo);
 		Optional<Documento> documentoEncontrado = documentos.stream().filter(d -> tieneIgualCodigo(d, codigo))
 				.findFirst();
@@ -192,19 +201,21 @@ public class RepositorioDocumentoImpl implements RepositorioDocumento {
 			return documentoEncontrado.get();
 		}
 		Logger.info("Saliendo de metodo " + Thread.currentThread().getStackTrace()[1].getMethodName());
-		return null;
+		return null;*/
+		return this.mapper.consultarDocumento(codigo);
 	}
 
 	@Override
 	public List<Documento> obtenerTodosLosDocumentos() {
-		Logger.info("Entrando en metodo " + Thread.currentThread().getStackTrace()[1].getMethodName());
+		/*Logger.info("Entrando en metodo " + Thread.currentThread().getStackTrace()[1].getMethodName());
 		for (Documento doc : documentos) {
 			Logger.info("************************");
 			Logger.info(this.getDatos(doc));
 			Logger.info("************************");
 		}
 		Logger.info("Saliendo de metodo " + Thread.currentThread().getStackTrace()[1].getMethodName());
-		return this.documentos;
+		return this.documentos;*/
+		return this.mapper.consultarTodosDocumento();
 	}
 
 	protected boolean tieneIgualCodigo(Documento documento, Integer codigo) {
@@ -212,9 +223,9 @@ public class RepositorioDocumentoImpl implements RepositorioDocumento {
 		return documento.getCodigo().equals(codigo);
 	}
 
-	public List<Documento> getDocumentos() {
-		return documentos;
-	}
+	//public List<Documento> getDocumentos() {
+	//	return documentos;
+	//}
 
 	public String getDatos(Documento documento) {
 		return "Documento con código" + documento.getCodigo() + " Nombre:  " + documento.getNombre() + " FechaCracion: "
@@ -224,7 +235,7 @@ public class RepositorioDocumentoImpl implements RepositorioDocumento {
 
 	@Override
 	public void GuardarDocumentoEnArchivo() {
-		Logger.info("Entrando en metodo " + Thread.currentThread().getStackTrace()[1].getMethodName());
+		/*Logger.info("Entrando en metodo " + Thread.currentThread().getStackTrace()[1].getMethodName());
 
 		for (Documento documento : documentos) {
 
@@ -249,7 +260,7 @@ public class RepositorioDocumentoImpl implements RepositorioDocumento {
 			e.printStackTrace();
 		}
 
-		Logger.info("Saliendo de metodo " + Thread.currentThread().getStackTrace()[1].getMethodName());
+		Logger.info("Saliendo de metodo " + Thread.currentThread().getStackTrace()[1].getMethodName());*/
 	}
 
 	@Override
